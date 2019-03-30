@@ -17,7 +17,7 @@ const domStringBuilder = (arrayToPrint) => {
         domString += `<div class="card col-3">`;
         domString += `  <div class="card-body">`;
         domString += `      <h5 class="card-title">${ingredient.item}</h5>`;
-        domString += `<a id=${ingredient.id} class="btn btn-danger deleteButton">Delete</a>`;
+        domString += `      <a id=${ingredient.id} class="btn btn-danger deleteButton">Delete</a>`;
         domString += `  </div>`;
         domString += `</div>`;
     });
@@ -35,7 +35,26 @@ const addIngredient = (e) => {
     ingredients.push(newIngredient);
     ingredientCounter++;
     domStringBuilder(ingredients);
+    addDeleteEvents();
     inputIngredient.value = '';
+};
+
+const deleteFunction = (e) => {
+    const buttonId = e.target.id;
+    ingredients.forEach((ingredient, index) => {
+        if(ingredient.id === buttonId){
+            ingredients.splice(index, 1);       
+        }
+    })
+   domStringBuilder(ingredients);
+   addDeleteEvents();
+};
+
+const addDeleteEvents = () => {
+    const deleteButtons = document.getElementsByClassName('deleteButton');
+    for(let i=0; i<deleteButtons.length; i++){
+        deleteButtons[i].addEventListener('click', deleteFunction);
+    }
 };
 
 const eventListeners = () => {
